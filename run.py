@@ -87,11 +87,20 @@ def get_end_time():
 
 def get_break_times():
     """
-    This function will get the amount of break time the users had on shift 
+    Gets the brea time duration in minutes. 
     """
-    collect_break_time = int(input("How long was your break? HHMM\n"))
-    print("Checking data...\n")
-    return collect_break_time
+    global collect_break_time
+    while True:
+        try:
+            break_time_input = int(input("Enter your brreak time in munutes: \n"))
+            if break_time_input >= 0:
+                collect_break_time = break_time_input
+                print("break time is valid.")
+            else:
+                print("Break time cannot be negative!")
+        except ValueError:
+            print("Invalid input! Please enter break time in minutes.")
+
 
 def get_wage():
     """
