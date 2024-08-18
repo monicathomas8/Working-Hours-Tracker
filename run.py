@@ -35,7 +35,8 @@ def get_shift_date():
     """
     global shift_date
     while True:
-        collect_date = input("Please enter the date of your shift DD/MM/YYYY): \n")
+        collect_date = input(
+            "Please enter the date of your shift DD/MM/YYYY): \n")
         print("Checking data...\n")
         shift_date = validate_date(collect_date)
         if shift_date:
@@ -67,7 +68,8 @@ def get_start_time():
     global collect_start_time
     while True:
         try:
-            start_time_input = input("Enter your start time in 24hr format (HHMM): \n")
+            start_time_input = input(
+                "Enter your start time in 24hr format (HHMM): \n")
             collect_start_time = datetime.strptime(start_time_input, '%H%M')
             print("Checking data...\n")
             print("Start time is valid.\n")
@@ -76,6 +78,7 @@ def get_start_time():
             print("Checking data...\n")
             print("Invalid time format! Please enter time as HHMM.\n")
 
+
 def get_end_time():
     """
     Gets the end time of the user's shift in 24-hour format (HHMM).
@@ -83,7 +86,8 @@ def get_end_time():
     global collect_end_time
     while True:
         try:
-            end_time_input = input("Enter you finished time in 24hr format (HHMM): \n")
+            end_time_input = input(
+                "Enter you finished time in 24hr format (HHMM): \n")
             collect_end_time = datetime.strptime(end_time_input, '%H%M')
             print("Checking data...\n")
             print("Shift end time is valid.\n")
@@ -100,7 +104,8 @@ def get_break_times():
     global collect_break_time
     while True:
         try:
-            break_time_input = int(input("Enter your break time in munutes: \n"))
+            break_time_input = int(
+                input("Enter your break time in munutes: \n"))
             if break_time_input >= 0:
                 collect_break_time = break_time_input
                 print("Checking data...\n")
@@ -121,14 +126,16 @@ def get_wage():
     global hourly_wage
     while True:
         try:
-            hourly_wage_input = input("Enter your hourly rate of pay (e.g., £15.50 should be 15.50): \n")
+            hourly_wage_input = input(
+                "Enter your hour rate of pay(e.g., £15.50 should be 15.50): \n")
             hourly_wage = float(hourly_wage_input)
             print("Checking data...\n")
             print("Hourly wage is valid.\n")
             return hourly_wage
         except ValueError:
             print("Checking data...\n")
-            print("Invalid input! Please enter a valid number for your wage (e.g., 14.00).\n")
+            print("Invalid input!\n")
+            print("Please enter a valid number for your wage(e.g., 14.00).\n")
 
 
 def calculate_days_pay():
@@ -137,11 +144,12 @@ def calculate_days_pay():
     and total due.
     """
     global hours_worked, paid_hours, total_due
-    
+
     time_diff = collect_end_time - collect_start_time
-    hours_worked = time_diff.total_seconds() / 3600 #converts time difference to hours
+    hours_worked = time_diff.total_seconds() / 3600
+    # Converts time difference to hours
     print(f"You worked a total of: {hours_worked:.2f} hours\n")
-    
+
     paid_hours = hours_worked - (collect_break_time / 60)
     print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
 
@@ -172,7 +180,8 @@ def pool_user_data():
 
 def main():
     """
-    Main function to run the shift collection and calculation process in a loop.
+    Main function to run the shift collection
+    and calculation process in a loop.
     """
     print("Welcome to Monica's Auto Pay Tracking App.\n")
     print("Track your days and log your working hours here.\n")
@@ -189,14 +198,15 @@ def main():
 
         # Ask user if they wamt to enter another shift
         while True:
-            repeat = input("Would you like to enter another shift? (yes/no): \n").strip().lower()
+            repeat = input(
+                "Ready to enter another shift?(yes/no): \n").strip().lower()
             if repeat == "yes":
-                break # Continue the loop to enter another shift
+                break  # Continue the loop to enter another shift
             elif repeat == "no":
                 print("Exiting the program. Your data has been saved.\n")
                 print("Thank you for using Monica's Auto Pay Tracking App.\n")
                 print("Until next time, goodbye! \n")
-                exit() # Exit the program
+                exit()  # Exit the program
             else:
                 print("Invalid input. Please enter 'yes' or 'no'.")
 
