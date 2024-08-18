@@ -75,10 +75,15 @@ def get_end_time():
     """
     Gets the end time of the user's shift in 24-hour format (HHMM). 
     """
-    collect_end_time = int(input("Enter you finished time in 24hr format HHMM\n"))
-    print("Checking data...\n")
-    return collect_end_time
-    print("Calculating worked hours...\n")
+    global collect_end_time
+    while True:
+        try:
+            end_time_input = input("Enter you finished time in 24hr format (HHMM): \n")
+            collect_end_time = datetime.strptime(end_time_input, '%H%M')
+            print("Shift end time is valid")
+        except ValueError:
+            print("Invalid time format! Please enter time as HHMM.")
+
 
 def get_break_times():
     """
