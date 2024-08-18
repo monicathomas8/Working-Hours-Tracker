@@ -167,7 +167,7 @@ def pool_user_data():
     print("Pulling data...\n")
     hours_worksheet = SHEET.worksheet("hours")
     hours_worksheet.append_row(pooled_data)
-    print("Hours Worksheet updated.\n")
+    print("Your Hours Worksheet has been updated.\n")
 
 
 def main():
@@ -175,7 +175,7 @@ def main():
     Main function to run the shift collection and calculation process in a loop.
     """
     print("Welcome to Monica's Auto Pay Tracking App.\n")
-    print("log your working hours here.\n")
+    print("Track your days and log your working hours here.\n")
     while True:
         # Collect and process data
         get_shift_date()
