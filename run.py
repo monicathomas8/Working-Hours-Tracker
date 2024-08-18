@@ -174,7 +174,8 @@ def main():
     """
     Main function to run the shift collection and calculation process in a loop.
     """
-    print("Track and log your working hours here.")
+    print("Welcome to Monica's Auto Pay Tracking App.\n")
+    print("log your working hours here.\n")
     while True:
         # Collect and process data
         get_shift_date()
@@ -185,11 +186,20 @@ def main():
         print("Thank you, calculating your pay...\n")
         calculate_days_pay()
         pool_user_data()
+
         # Ask user if they wamt to enter another shift
-        repeat = input("Would you like to enter another shift? (yes/no): \n").strip().lower()
-        if repeat != 'yes':
-            print("Exiting the program. Your data has been saved, goodbye! \n")
-            break
+        while True:
+            repeat = input("Would you like to enter another shift? (yes/no): \n").strip().lower()
+            if repeat == "yes":
+                break # Continue the loop to enter another shift
+            elif repeat == "no":
+                print("Exiting the program. Your data has been saved.\n")
+                print("Thank you for using Monica's Auto Pay Tracking App.\n")
+                print("Until next time, goodbye! \n")
+                exit()  # Exit the program
+            else:
+                print("Invalid input. Please enter 'yes' or 'no'.")
+
 
 # Run the main function
 main()
