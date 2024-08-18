@@ -174,8 +174,9 @@ def main():
     """
     Main function to run the shift collection and calculation process in a loop.
     """
+    print("Track and log your working hours here.")
     while True:
-    # Collect and process data
+        # Collect and process data
         get_shift_date()
         get_start_time()
         get_end_time()
