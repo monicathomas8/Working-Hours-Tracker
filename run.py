@@ -127,7 +127,7 @@ def get_wage():
     while True:
         try:
             hourly_wage_input = input(
-                "Enter your hour rate of pay(e.g., £15.50 should be 15.50): \n")
+                "Enter hourly rate of pay(e.g., £15.50 should be 15.50): \n")
             hourly_wage = float(hourly_wage_input)
             print("Checking data...\n")
             print("Hourly wage is valid.\n")
