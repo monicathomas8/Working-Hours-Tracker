@@ -1,6 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import datetime
+from datetime import datetime, timedelta
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -48,14 +48,12 @@ def validate_date(collect_date):
     parsed date if valid, otherwise retuen None.
     """
     try:
-        # attepmt to parse the date into the correct format.
+        # Attepmt to parse the date into the correct format.
         parsed_date = datetime.strptime(collect_date, '%d/%m/%Y').date()
-        print("Checking data...\n")
         print(f"Date entered: {parsed_date}\n")
         return parsed_date
-    except ValueError as e:
+    except ValueError:
         # If the date is not valid, print an error message and return false
-        print("Checking data...\n")
         print("Please enter the date in DD/MM/YYYY format to continue.\n")
         return None
 
@@ -72,7 +70,7 @@ def get_start_time():
             print("Checking data...\n")
             print("Start time is valid.\n")
             return collect_start_time
-        except ValueError as e:
+        except ValueError:
             print("Checking data...\n")
             print("Invalid time format! Please enter time as HHMM.\n")
 
@@ -88,19 +86,19 @@ def get_end_time():
             print("Checking data...\n")
             print("Shift end time is valid.\n")
             return collect_end_time
-        except ValueError as e:
+        except ValueError:
             print("Checking data...\n")
             print("Invalid time format! Please enter time as HHMM.\n")
 
 
 def get_break_times():
     """
-    Gets the brea time duration in minutes. 
+    Gets the break time duration in minutes. 
     """
     global collect_break_time
     while True:
         try:
-            break_time_input = int(input("Enter your break time in munutes HHMM: \n"))
+            break_time_input = int(input("Enter your break time in munutes: \n"))
             if break_time_input >= 0:
                 collect_break_time = break_time_input
                 print("Checking data...\n")
@@ -109,9 +107,9 @@ def get_break_times():
             else:
                 print("Checking data...\n")
                 print("Break time cannot be a negative number!\n")
-        except ValueError as e:
+        except ValueError:
             print("Checking data...\n")
-            print("Invalid input! Please enter break time in minutes (e.g., 0030).\n")
+            print("Invalid input! Please enter break time in minutes!\n")
 
 
 def get_wage():
@@ -126,7 +124,7 @@ def get_wage():
             print("Checking data...\n")
             print("Hourly wage is valid.\n")
             return hourly_wage
-        except ValueError as e:
+        except ValueError:
             print("Checking data...\n")
             print("Invalid input! Please enter a valid number for your wage (e.g., 14.00).\n")
 
@@ -139,10 +137,11 @@ get_break_times()
 get_wage()
 
 print("Thank you, calculating your pay...\n")
+
 # Calculate the total hours worked
 time_diff = collect_end_time - collect_start_time
 hours_worked = time_diff.total_seconds() / 3600 #converts time difference to hours
-print(f" You worked a total of: {hours_worked:.2f} hours\n")
+print(f"You worked a total of: {hours_worked:.2f} hours\n")
 
 # Calculate paid hours after subracting break time
 paid_hours = hours_worked - (collect_break_time / 60)
