@@ -19,19 +19,33 @@ To install and work with googlesheets.
 """
 #hours = SHEET.worksheet('hours')
 
-def get_shift_date(collect_date):
+def get_shift_date():
     """
-    collects the date of the shift worked and checks it the date is
-    in the correct format
+    collects the date of the shift worked 
     """
-collect_date = input("Please enter the date of your shift DD/MM/YYYY): \n")
-print("Checking data...\n")
+    while True:
+        collect_date = input("Please enter the date of your shift DD/MM/YYYY): \n")
+        print("Checking data...\n")
 
-try:
-    shift_date = datetime.strptime(collect_date, '%d/%m/%Y').date()
-    print(f"Date entered: {shift_date}")
-except ValueError as e:
-  
-    print("Please enter the date in DD/MM/YYYY format to continue.\n")
+        if validate_date(collect_date):
+            print("Date is correct")
+            break
 
-get_shift_date(collect_date)
+
+def validate_date(collect_date):
+    """
+    Checks if the input is in the correct format
+    """
+    try:
+        # attepmt to parse the date into the correct format.
+        shift_date = datetime.strptime(collect_date, '%d/%m/%Y').date()
+        print(f"Date entered: {shift_date}")
+    #add code to update time column in the google sheet.
+    except ValueError as e:
+        # If the date is not valid, print an error message and return false
+        print("Please enter the date in DD/MM/YYYY format to continue.\n")
+        return False
+
+    return True
+# call the function to start trher process
+get_shift_date()
