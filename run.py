@@ -104,13 +104,17 @@ def get_break_times():
 
 def get_wage():
     """
-    This function will get the users hourly wage 
+    Gets the user's hourlymwage as a float.
     """
-    hourly_wage = input("How much is your hourly rate of pay? example £15.50 per hour should be entered like: 15.50 \n")
-    print("Checking data...\n")
-    correct_wage = float(hourly_wage)
-
-    return correct_wage
+    global hourly_wage
+    while True:
+        try:
+            hourly_wage_input = input("Enter your hourly rate of pay (e.g., £15.50 should be 15.50): \n")
+            hourly_wage = float(hourly_wage_input)
+            print("Hourly wage is valid.")
+            return hourly_wage
+        except ValueError:
+            print("Invalid input! Please enter a valid number for your wage.")
 
 
 
