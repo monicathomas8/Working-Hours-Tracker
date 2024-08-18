@@ -77,8 +77,7 @@ def get_end_time():
     collect_end_time = int(input("Enter you finished time in 24hr format HHMM\n"))
     print("Checking data...\n")
     return collect_end_time
-
-print("Calculating worked hours...\n")
+    print("Calculating worked hours...\n")
 
 def get_break_times():
     """
@@ -92,9 +91,11 @@ def get_wage():
     """
     This function will get the users hourly wage 
     """
-    hourly_wage = int(input("How much is your hourly rate of pay? example £15.50 per hour should be entered like: 15.50 \n"))
+    hourly_wage = input("How much is your hourly rate of pay? example £15.50 per hour should be entered like: 15.50 \n")
     print("Checking data...\n")
-    return hourly_wage
+    correct_wage = float(hourly_wage)
+
+    return correct_wage
 
 
 
@@ -126,7 +127,7 @@ print(f" You worked a total of: {hours_worked}\n")
 paid_hours = hours_worked - collect_break_time
 print(f"Your total paid hours are: {paid_hours}\n")
 
-total_due = paid_hours * hourly_wage
+total_due = paid_hours * correct_wage
 print(f"For todays shift you are due: £{total_due}")
 #checks if shift date was correctly set
 #if shift_date:
