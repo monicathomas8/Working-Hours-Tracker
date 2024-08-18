@@ -153,7 +153,7 @@ def pool_user_data():
     """
     Pulls user input data into a list and updates the google sheets
     """
-    global hours_worked, paid_hours, total_due
+    global hours_worked, paid_hours, total_due, hourly_wage
     pooled_data = [
         shift_date.strftime('%d/%m/%Y'),
         f"{collect_start_time.strftime('%H:%M')}", 
@@ -161,6 +161,7 @@ def pool_user_data():
         f"{hours_worked:.2f}",
         collect_break_time,
         f"{paid_hours:.2f}", 
+        f"{hourly_wage:.2f}",
         f"£{total_due:.2f}"
     ]
     print("Pulling data...\n")
