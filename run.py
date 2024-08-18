@@ -131,6 +131,24 @@ def get_wage():
             print("Invalid input! Please enter a valid number for your wage (e.g., 14.00).\n")
 
 
+def calculate_days_pay():
+    """
+    Calculate the total hours worked, paid hours after subracting break time,
+    and total due.
+    """
+    global hours_worked, paid_hours, total_due
+    
+    time_diff = collect_end_time - collect_start_time
+    hours_worked = time_diff.total_seconds() / 3600 #converts time difference to hours
+    print(f"You worked a total of: {hours_worked:.2f} hours\n")
+    
+    paid_hours = hours_worked - (collect_break_time / 60)
+    print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
+
+    total_due = paid_hours * hourly_wage
+    print(f"For todays shift you are due: £{total_due:.2f}\n")
+
+
 def pool_user_data():
     """
     Pulls user input data into a list and updates the google sheets
@@ -151,27 +169,25 @@ def pool_user_data():
     print("Hours Worksheet updated.\n")
 
 
-# Call the function to start the process
-get_shift_date()
-get_start_time()
-get_end_time()
-get_break_times()
-get_wage()
+def main():
+    """
+    Main function to run the shift collection and calculation process in a loop.
+    """
+    while True:
+    # Collect and process data
+        get_shift_date()
+        get_start_time()
+        get_end_time()
+        get_break_times()
+        get_wage()
+        print("Thank you, calculating your pay...\n")
+        calculate_days_pay()
+        pool_user_data()
+        # Ask user if they wamt to enter another shift
+        repeat = input("Would you like to enter another shift? (yes/no): \n").strip().lower()
+        if repeat != 'yes':
+            print("Exiting the program. Your data has been saved, goodbye! \n")
+            break
 
-print("Thank you, calculating your pay...\n")
-
-# Calculate the total hours worked
-time_diff = collect_end_time - collect_start_time
-hours_worked = time_diff.total_seconds() / 3600 #converts time difference to hours
-print(f"You worked a total of: {hours_worked:.2f} hours\n")
-
-# Calculate paid hours after subracting break time
-paid_hours = hours_worked - (collect_break_time / 60)
-print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
-
-# Calculate total due
-total_due = paid_hours * hourly_wage
-print(f"For todays shift you are due: £{total_due:.2f}\n")
-
-# Pool and update user data in Google Sheets
-pool_user_data()
+# Run the main function
+main()
