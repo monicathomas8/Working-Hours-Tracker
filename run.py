@@ -117,6 +117,12 @@ def get_wage():
             print("Invalid input! Please enter a valid number for your wage.")
 
 
+#  call the function to start the process
+get_shift_date()
+get_start_time()
+get_end_time()
+get_break_times()
+get_wage()
 
 #def update_hours_worksheet():
  #   """
@@ -127,25 +133,16 @@ def get_wage():
    # hours_worksheet.append_row([shift_date.strftime('%d/%m/%Y')])
     #print("Date added to Hours worksheet.\n")
 
+# Calculate the total hours worked
+time_diff = collect_end_time - collect_start_time
+hours_worked = time_diff.total_seconds() / 3600 #converts time difference to hours
+print(f" You worked a total of: {hours_worked:.2f} hours\n")
 
-    #collect_break_time = int(input("Enter you break length in 24hr format HH:MM\n"))
-    #print("Checking data...\n")
+# Calculate paid hours after subracting break time
+paid_hours = hours_worked - (collect_break_time / 60)
+print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
 
-
-#  call the function to start the process
-get_shift_date()
-get_start_time()
-get_end_time()
-get_break_times()
-get_wage()
-
-
-hours_worked = collect_end_time - collect_start_time
-print(f" You worked a total of: {hours_worked}\n")
-
-paid_hours = hours_worked - collect_break_time
-print(f"Your total paid hours are: {paid_hours}\n")
-
+# Calculate total due
 total_due = paid_hours * correct_wage
 print(f"For todays shift you are due: £{total_due}")
 #checks if shift date was correctly set
