@@ -50,10 +50,12 @@ def validate_date(collect_date):
     try:
         # attepmt to parse the date into the correct format.
         parsed_date = datetime.strptime(collect_date, '%d/%m/%Y').date()
+        print("Checking data...\n")
         print(f"Date entered: {parsed_date}\n")
         return parsed_date
     except ValueError as e:
         # If the date is not valid, print an error message and return false
+        print("Checking data...\n")
         print("Please enter the date in DD/MM/YYYY format to continue.\n")
         return None
 
@@ -67,9 +69,11 @@ def get_start_time():
         try:
             start_time_input = input("Enter your start time in 24hr format (HHMM): \n")
             collect_start_time = datetime.strptime(start_time_input, '%H%M')
+            print("Checking data...\n")
             print("Start time is valid.\n")
             return collect_start_time
         except ValueError as e:
+            print("Checking data...\n")
             print("Invalid time format! Please enter time as HHMM.\n")
 
 def get_end_time():
@@ -81,9 +85,11 @@ def get_end_time():
         try:
             end_time_input = input("Enter you finished time in 24hr format (HHMM): \n")
             collect_end_time = datetime.strptime(end_time_input, '%H%M')
+            print("Checking data...\n")
             print("Shift end time is valid.\n")
             return collect_end_time
         except ValueError as e:
+            print("Checking data...\n")
             print("Invalid time format! Please enter time as HHMM.\n")
 
 
@@ -97,11 +103,14 @@ def get_break_times():
             break_time_input = int(input("Enter your break time in munutes HHMM: \n"))
             if break_time_input >= 0:
                 collect_break_time = break_time_input
+                print("Checking data...\n")
                 print("break time is valid.\n")
                 return collect_break_time
             else:
+                print("Checking data...\n")
                 print("Break time cannot be a negative number!\n")
         except ValueError as e:
+            print("Checking data...\n")
             print("Invalid input! Please enter break time in minutes (e.g., 0030).\n")
 
 
@@ -114,9 +123,11 @@ def get_wage():
         try:
             hourly_wage_input = input("Enter your hourly rate of pay (e.g., £15.50 should be 15.50): \n")
             hourly_wage = float(hourly_wage_input)
+            print("Checking data...\n")
             print("Hourly wage is valid.\n")
             return hourly_wage
         except ValueError as e:
+            print("Checking data...\n")
             print("Invalid input! Please enter a valid number for your wage (e.g., 14.00).\n")
 
 
@@ -127,19 +138,7 @@ get_end_time()
 get_break_times()
 get_wage()
 
-#checks if shift date was correctly set
-
-#if shift_date:
-    #update_hours_worksheet()
-#def update_hours_worksheet():
- #   """
-   # updates the google worksheet with the user's data.
-    #"""
-    #print("Updating Hours worksheet...\n")
-    #hours_worksheet = SHEET.worksheet("hours")
-   # hours_worksheet.append_row([shift_date.strftime('%d/%m/%Y')])
-    #print("Date added to Hours worksheet.\n")
-
+print("Thank you, calculating your pay...\n")
 # Calculate the total hours worked
 time_diff = collect_end_time - collect_start_time
 hours_worked = time_diff.total_seconds() / 3600 #converts time difference to hours
