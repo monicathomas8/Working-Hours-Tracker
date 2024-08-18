@@ -17,9 +17,9 @@ the code above was learned from the loveSandwiches project
 To install and work with googlesheets.
 """
 
-# Global variables 
+# Global variables
 shift_date = None
-collect_start_time = None 
+collect_start_time = None
 collect_end_time = None
 collect_break_time = None
 hourly_wage = None
@@ -29,8 +29,8 @@ total_due = None
 
 def get_shift_date():
     """
-    collects the date of the shift worked and checks it is valid 
-    with the validate_date function. The loop will continue until 
+    collects the date of the shift worked and checks it is valid
+    with the validate_date function. The loop will continue until
     valid date is entered.
     """
     global shift_date
@@ -46,7 +46,7 @@ def get_shift_date():
 
 def validate_date(collect_date):
     """
-    Checks if the input is in the correct format and returns the 
+    Checks if the input is in the correct format and returns the
     parsed date if valid, otherwise retuen None.
     """
     try:
@@ -62,7 +62,7 @@ def validate_date(collect_date):
 
 def get_start_time():
     """
-    This function will get the start time of the users shift 
+    This function will get the start time of the users shift.
     """
     global collect_start_time
     while True:
@@ -78,7 +78,7 @@ def get_start_time():
 
 def get_end_time():
     """
-    Gets the end time of the user's shift in 24-hour format (HHMM). 
+    Gets the end time of the user's shift in 24-hour format (HHMM).
     """
     global collect_end_time
     while True:
@@ -95,7 +95,7 @@ def get_end_time():
 
 def get_break_times():
     """
-    Gets the break time duration in minutes. 
+    Gets the break time duration in minutes.
     """
     global collect_break_time
     while True:
@@ -156,11 +156,11 @@ def pool_user_data():
     global hours_worked, paid_hours, total_due, hourly_wage
     pooled_data = [
         shift_date.strftime('%d/%m/%Y'),
-        f"{collect_start_time.strftime('%H:%M')}", 
+        f"{collect_start_time.strftime('%H:%M')}",
         f"{collect_end_time.strftime('%H:%M')}",
         f"{hours_worked:.2f}",
         collect_break_time,
-        f"{paid_hours:.2f}", 
+        f"{paid_hours:.2f}",
         f"{hourly_wage:.2f}",
         f"£{total_due:.2f}"
     ]
@@ -196,7 +196,7 @@ def main():
                 print("Exiting the program. Your data has been saved.\n")
                 print("Thank you for using Monica's Auto Pay Tracking App.\n")
                 print("Until next time, goodbye! \n")
-                exit()  # Exit the program
+                exit() # Exit the program
             else:
                 print("Invalid input. Please enter 'yes' or 'no'.")
 
