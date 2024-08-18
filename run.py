@@ -25,6 +25,7 @@ collect_break_time = None
 hourly_wage = None
 
 
+
 def get_shift_date():
     """
     collects the date of the shift worked and checks it is valid 
@@ -129,6 +130,15 @@ def get_wage():
             print("Invalid input! Please enter a valid number for your wage (e.g., 14.00).\n")
 
 
+def pool_user_data():
+    """
+    Pulls user input data into a list
+    """
+    pooled_data =[shift_date, hours_worked, collect_break_time, paid_hours, hourly_wage, total_due]
+    print("Pulling data...\n")
+    
+
+
 # Call the function to start the process
 get_shift_date()
 get_start_time()
@@ -150,3 +160,5 @@ print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
 # Calculate total due
 total_due = paid_hours * hourly_wage
 print(f"For todays shift you are due: £{total_due:.2f}\n")
+
+pool_user_data()
