@@ -23,7 +23,8 @@ collect_start_time = None
 collect_end_time = None
 collect_break_time = None
 hourly_wage = None
-
+paid_hours = None
+total_due = None
 
 
 def get_shift_date():
@@ -132,11 +133,22 @@ def get_wage():
 
 def pool_user_data():
     """
-    Pulls user input data into a list
+    Pulls user input data into a list and updates the google sheets
     """
-    pooled_data =[shift_date, hours_worked, collect_break_time, paid_hours, hourly_wage, total_due]
+    global hours_worked, paid_hours, total_due
+    pooled_data = [
+        shift_date.strftime('%d/%m/%Y'),
+        f"{collect_start_time.strftime('%H:%M')}", 
+        f"{collect_end_time.strftime('%H:%M')}",
+        f"{hours_worked:.2f}",
+        collect_break_time,
+        f"{paid_hours:.2f}", 
+        f"£{total_due:.2f}"
+    ]
     print("Pulling data...\n")
-    
+    hours_worksheet = SHEET.worksheet("hours")
+    hours_worksheet.append_row(pooled_data)
+    print("Hours Worksheet updated.\n")
 
 
 # Call the function to start the process
@@ -161,4 +173,5 @@ print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
 total_due = paid_hours * hourly_wage
 print(f"For todays shift you are due: £{total_due:.2f}\n")
 
+# Pool and update user data in Google Sheets
 pool_user_data()
