@@ -17,17 +17,18 @@ the code above was learned from the loveSandwiches project
 To install and work with googlesheets.
 """
 
+# Global variables 
 shift_date = None
 collect_start_time = None 
 collect_end_time = None
 collect_break_time = None
 hourly_wage = None
-#global variables 
+
 
 def get_shift_date():
     """
     collects the date of the shift worked and checks it is valid 
-    with the validate_date function. the loop will continue until 
+    with the validate_date function. The loop will continue until 
     valid date is entered.
     """
     global shift_date
@@ -36,7 +37,7 @@ def get_shift_date():
         print("Checking data...\n")
         shift_date = validate_date(collect_date)
         if shift_date:
-            print("Date is correct")
+            print("Date is correct.\n")
             break
         # ends the loop if input data is valid
 
@@ -49,7 +50,7 @@ def validate_date(collect_date):
     try:
         # attepmt to parse the date into the correct format.
         parsed_date = datetime.strptime(collect_date, '%d/%m/%Y').date()
-        print(f"Date entered: {parsed_date}")
+        print(f"Date entered: {parsed_date}\n")
         return parsed_date
     except ValueError as e:
         # If the date is not valid, print an error message and return false
@@ -65,11 +66,11 @@ def get_start_time():
     while True:
         try:
             start_time_input = input("Enter your start time in 24hr format (HHMM): \n")
-            collect_start_time = datetime.strftime(start_time_input, '%H%M')
-            print("Start time is valid.")
+            collect_start_time = datetime.strptime(start_time_input, '%H%M')
+            print("Start time is valid.\n")
             return collect_start_time
-        except ValueError:
-            print("Invalid time format! Please enter time as HHMM.")
+        except ValueError as e:
+            print("Invalid time format! Please enter time as HHMM.\n")
 
 def get_end_time():
     """
@@ -80,9 +81,10 @@ def get_end_time():
         try:
             end_time_input = input("Enter you finished time in 24hr format (HHMM): \n")
             collect_end_time = datetime.strptime(end_time_input, '%H%M')
-            print("Shift end time is valid")
-        except ValueError:
-            print("Invalid time format! Please enter time as HHMM.")
+            print("Shift end time is valid.\n")
+            return collect_end_time
+        except ValueError as e:
+            print("Invalid time format! Please enter time as HHMM.\n")
 
 
 def get_break_times():
@@ -92,38 +94,43 @@ def get_break_times():
     global collect_break_time
     while True:
         try:
-            break_time_input = int(input("Enter your brreak time in munutes: \n"))
+            break_time_input = int(input("Enter your break time in munutes HHMM: \n"))
             if break_time_input >= 0:
                 collect_break_time = break_time_input
-                print("break time is valid.")
+                print("break time is valid.\n")
+                return collect_break_time
             else:
-                print("Break time cannot be negative!")
-        except ValueError:
-            print("Invalid input! Please enter break time in minutes.")
+                print("Break time cannot be a negative number!\n")
+        except ValueError as e:
+            print("Invalid input! Please enter break time in minutes (e.g., 0030).\n")
 
 
 def get_wage():
     """
-    Gets the user's hourlymwage as a float.
+    Gets the user's hourly wage as a float.
     """
     global hourly_wage
     while True:
         try:
             hourly_wage_input = input("Enter your hourly rate of pay (e.g., £15.50 should be 15.50): \n")
             hourly_wage = float(hourly_wage_input)
-            print("Hourly wage is valid.")
+            print("Hourly wage is valid.\n")
             return hourly_wage
-        except ValueError:
-            print("Invalid input! Please enter a valid number for your wage.")
+        except ValueError as e:
+            print("Invalid input! Please enter a valid number for your wage (e.g., 14.00).\n")
 
 
-#  call the function to start the process
+# Call the function to start the process
 get_shift_date()
 get_start_time()
 get_end_time()
 get_break_times()
 get_wage()
 
+#checks if shift date was correctly set
+
+#if shift_date:
+    #update_hours_worksheet()
 #def update_hours_worksheet():
  #   """
    # updates the google worksheet with the user's data.
@@ -143,8 +150,5 @@ paid_hours = hours_worked - (collect_break_time / 60)
 print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
 
 # Calculate total due
-total_due = paid_hours * correct_wage
-print(f"For todays shift you are due: £{total_due}")
-#checks if shift date was correctly set
-#if shift_date:
-    #update_hours_worksheet()
+total_due = paid_hours * hourly_wage
+print(f"For todays shift you are due: £{total_due:.2f}\n")
