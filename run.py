@@ -18,20 +18,22 @@ To install and work with googlesheets.
 """
 
 shift_date = None
-#global var
+collect_start_time = None 
+collect_end_time = None
+collect_break_time = None
+hourly_wage = None
+#global variables 
 
 def get_shift_date():
     """
     collects the date of the shift worked and checks it is valid 
-    with the validate_date function the loop will continue until 
+    with the validate_date function. the loop will continue until 
     valid date is entered.
     """
     global shift_date
     while True:
         collect_date = input("Please enter the date of your shift DD/MM/YYYY): \n")
         print("Checking data...\n")
-        #checks users input and makes sure it is valid
-
         shift_date = validate_date(collect_date)
         if shift_date:
             print("Date is correct")
@@ -49,30 +51,29 @@ def validate_date(collect_date):
         parsed_date = datetime.strptime(collect_date, '%d/%m/%Y').date()
         print(f"Date entered: {parsed_date}")
         return parsed_date
-
     except ValueError as e:
         # If the date is not valid, print an error message and return false
         print("Please enter the date in DD/MM/YYYY format to continue.\n")
         return None
 
 
-collect_start_time = None 
-collect_end_time = None
-collect_break_time = None
-hourly_wage = None
-#global vars so they can be used inside and outside of different functions
-
 def get_start_time():
     """
     This function will get the start time of the users shift 
     """
-    collect_start_time = int(input("Enter your start time in 24hr format HHMM\n"))
-    print("Checking data...\n")
-    return collect_start_time
+    global collect_start_time
+    while True:
+        try:
+            start_time_input = input("Enter your start time in 24hr format (HHMM): \n")
+            collect_start_time = datetime.strftime(start_time_input, '%H%M')
+            print("Start time is valid.")
+            return collect_start_time
+        except ValueError:
+            print("Invalid time format! Please enter time as HHMM.")
 
 def get_end_time():
     """
-    This function will get the end time of the users shift 
+    Gets the end time of the user's shift in 24-hour format (HHMM). 
     """
     collect_end_time = int(input("Enter you finished time in 24hr format HHMM\n"))
     print("Checking data...\n")
@@ -121,7 +122,7 @@ get_break_times()
 get_wage()
 
 
-hours_worked = collect_end_time - collect_start_time 
+hours_worked = collect_end_time - collect_start_time
 print(f" You worked a total of: {hours_worked}\n")
 
 paid_hours = hours_worked - collect_break_time
