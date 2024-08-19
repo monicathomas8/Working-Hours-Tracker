@@ -15,6 +15,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('Working-Hours-Tracker-PP3')
 
+
 def get_date(prompt: str) -> date:
     """Prompt user for a date and validate the format and range."""
     today = date.today()
@@ -34,6 +35,7 @@ def get_date(prompt: str) -> date:
         except ValueError:
             print("Invalid date format! Please enter date as DD/MM/YYYY.\n")
 
+
 def get_time(prompt: str) -> datetime.time:
     """Prompt user for a time and validate the format."""
     while True:
@@ -48,9 +50,11 @@ def get_time(prompt: str) -> datetime.time:
         except ValueError:
             print("Invalid time format! Please enter time as HHMM.\n")
 
+
 def validate_range(value: float, min_value: float, max_value: float) -> bool:
     """Validate if the value is within the given range."""
     return min_value <= value <= max_value
+
 
 def get_break_time(prompt: str, total_shift_hours: float) -> int:
     """
@@ -75,6 +79,7 @@ def get_break_time(prompt: str, total_shift_hours: float) -> int:
                 "Invalid input! Please enter a whole number for break time.\n"
                 )
 
+
 def get_hourly_wage(prompt: str) -> float:
     """
     Prompt user for hourly wage and validate that
@@ -93,9 +98,8 @@ def get_hourly_wage(prompt: str) -> float:
                 "Invalid input! Please enter a number for the hourly wage.\n"
                 )
 
-def validate_times(
-    start_time: datetime.time, end_time: datetime.time
-    ) -> bool:
+
+def validate_times(start_time: datetime.time, end_time: datetime.time) -> bool:
     """
     Validates that the end time is after
     the start time and they are not the same.
@@ -104,12 +108,13 @@ def validate_times(
         return False
     return True
 
+
 def calculate_pay(
     start_time: datetime.time,
     end_time: datetime.time,
     break_minutes: int,
     hourly_wage: float
-    ) -> Tuple[float, float, float]:
+) -> Tuple[float, float, float]:
     """
     Calculates the total hours worked, total paid hours
     and the total due.
@@ -119,7 +124,7 @@ def calculate_pay(
 
     if not validate_times(start_time, end_time):
         print(
-            "Error: End time must be after start time and cannot be the same.\n"
+            "Error: End time must be later than start time.\n"
             )
         return 0, 0, 0  # Return zeros if times are invalid
 
@@ -141,6 +146,7 @@ def calculate_pay(
 
     return hours_worked, paid_hours, total_due
 
+
 def pool_user_data(
     shift_date: date,
     start_time: datetime.time,
@@ -150,7 +156,7 @@ def pool_user_data(
     paid_hours: float,
     hourly_wage: float,
     total_due: float
-    ):
+):
     """
     Pools user data into a list and updates
     the hours worksheet within the Google Sheet.
@@ -170,6 +176,7 @@ def pool_user_data(
     hours_worksheet.append_row(pooled_data)
     print("Your Hours Worksheet has been updated.\n")
 
+
 def display_last_7_entries():
     """
     Display the last 7 entries from the Google Sheet,
@@ -179,7 +186,7 @@ def display_last_7_entries():
     hours_worksheet = SHEET.worksheet("hours")
     # Fetch all records
     all_records = hours_worksheet.get_all_values()
-    
+
     if len(all_records) == 0:
         print("No entries found in the sheet.\n")
         return
@@ -190,7 +197,7 @@ def display_last_7_entries():
     if len(all_records) > 8:
         last_7_entries = [header] + all_records[-7:]
     else:
-        last_7_entries = all_records  
+        last_7_entries = all_records
         # If there are fewer than 8 rows, include all
 
     # Determine the width of each column
@@ -234,7 +241,7 @@ def main():
         end_time = get_time(
             "Enter your end time in 24hr format (HHMM): \n"
             )
-        
+
         """
         Ensures that start time and end time
         are within the same 24-hour period and are not the same.
@@ -249,12 +256,10 @@ def main():
             end_time = get_time(
                 "Re-enter your end time in 24hr format (HHMM): \n"
                 )
-        
-        total_shift_hours = (
-            datetime.combine(datetime.today(),
-            end_time) - datetime.combine(datetime.today(),
-            start_time)
-            ).total_seconds() / 3600
+            total_shift_hours = (
+             datetime.combine(datetime.today(), end_time)
+             - datetime.combin(datetime.today(), start_time)
+             ).total_seconds() / 3600
         break_minutes = get_break_time(
             "Enter your break time in minutes (1-120): \n",
             total_shift_hours
@@ -292,7 +297,7 @@ def main():
                 print("Exiting the program. Your data has been saved.\n")
                 while True:
                     show_entries = input(
-                        "Would you like to see the last 7 entries? (yes/no): \n"
+                        "Would you like to see the last 7 entries? (yes/no):"
                         ).strip().lower()
                     if show_entries == "yes":
                         display_last_7_entries()
@@ -319,7 +324,7 @@ def main():
                 Please enter 'yes' or 'no' without extra spaces or characters.
                 """)
 
+
 # Run the main function
 if __name__ == "__main__":
     main()
-
