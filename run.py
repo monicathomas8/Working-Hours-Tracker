@@ -105,11 +105,16 @@ def main():
         pool_user_data(shift_date, start_time, end_time, break_minutes, hours_worked, paid_hours, hourly_wage, total_due)
 
         # Ask user if they want to enter another shift
-        repeat = input("Ready to enter another shift? (yes/no): \n").strip().lower()
-        if repeat != "yes":
-            print("Exiting the program. Your data has been saved.\n")
-            print("Thank you for using the Auto Pay Tracking App.\n")
-            break
+        while True:
+            repeat = input("Ready to enter another shift? (yes/no): \n").strip().lower()
+            if repeat == "yes":
+                break
+            elif repeat == "no":
+                print("Exiting the program. Your data has been saved.\n")
+                print("Thank you for using the Auto Pay Tracking App.\n")
+                return  # Exit the function to end the program
+            else:
+                print("Invalid input! Please enter 'yes' or 'no' without extra spaces or characters.\n")
 
 # Run the main function
 if __name__ == "__main__":
