@@ -61,42 +61,19 @@ def get_positive_float(prompt: str) -> float:
             print("Invalid input! Please enter a number.\n")
 
 
+def calculate_pay(start_time: datetime, end_time: datetime, break_minutes: int, hourly_wage: float) -> Tuple[float, float, float]:
+    """Calculate total hours worked, paid hours, and total due."""
+    time_diff = datetime.combine(datetime.today(), end_time) - datetime.combine(datetime.today(), start_time)
+    hours_worked = time_diff.total_seconds() / 3600
+    print(f"You worked a total of: {hours_worked:.2f} hours\n")
 
+    paid_hours = hours_worked - (break_minutes / 60)
+    print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
 
-def get_start_time():
-    """
-    This function will get the start time of the users shift.
-    """
-    global collect_start_time
-    while True:
-        try:
-            start_time_input = input(
-                "Enter your start time in 24hr format (HHMM): \n")
-            collect_start_time = datetime.strptime(start_time_input, '%H%M')
-            print("Checking data...\n")
-            print("Start time is valid.\n")
-            return collect_start_time
-        except ValueError:
-            print("Checking data...\n")
-            print("Invalid time format! Please enter time as HHMM.\n")
+    total_due = paid_hours * hourly_wage
+    print(f"For today's shift you are due: £{total_due:.2f}\n")
 
-
-def get_end_time():
-    """
-    Gets the end time of the user's shift in 24-hour format (HHMM).
-    """
-    global collect_end_time
-    while True:
-        try:
-            end_time_input = input(
-                "Enter you finished time in 24hr format (HHMM): \n")
-            collect_end_time = datetime.strptime(end_time_input, '%H%M')
-            print("Checking data...\n")
-            print("Shift end time is valid.\n")
-            return collect_end_time
-        except ValueError:
-            print("Checking data...\n")
-            print("Invalid time format! Please enter time as HHMM.\n")
+    return hours_worked, paid_hours, total_due
 
 
 def get_break_times():
