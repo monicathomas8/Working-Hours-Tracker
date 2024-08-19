@@ -22,22 +22,16 @@ To install and work with googlesheets.
 
 
 
-
-def get_shift_date():
-    """
-    collects the date of the shift worked and checks it is valid
-    with the validate_date function. The loop will continue until
-    valid date is entered.
-    """
-    global shift_date
+def get_date(prompt: str) -> datetime.date:
+    """Prompt user for a date and validate the format."""
     while True:
-        collect_date = input(
-            "Please enter the date of your shift DD/MM/YYYY): \n")
-        print("Checking data...\n")
-        shift_date = validate_date(collect_date)
-        if shift_date:
-            print("Date is correct.\n")
-            break
+        try:
+            date_str = input(prompt)
+            shift_date = datetime.strptime(date_str, '%d/%m/%Y').date()
+            print(f"Date entered: {shift_date}\n")
+            return shift_date
+        except ValueError:
+            print("Invalid date format! Please enter date as DD/MM/YYYY.\n")
         # ends the loop if input data is valid
 
 
