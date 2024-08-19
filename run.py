@@ -53,7 +53,10 @@ def validate_range(value: float, min_value: float, max_value: float) -> bool:
     return min_value <= value <= max_value
 
 def get_break_time(prompt: str, total_shift_hours: float) -> int:
-    """Prompt user for break time and validate it is within range and less than total shift time."""
+    """
+    Prompt user for break time and validate it is
+    within range and less than total shift time.
+    """
     while True:
         try:
             break_time = int(input(prompt).strip())
@@ -62,14 +65,21 @@ def get_break_time(prompt: str, total_shift_hours: float) -> int:
                     print(f"Break time entered: {break_time} minutes\n")
                     return break_time
                 else:
-                    print("Break time cannot be longer than the total shift time.\n")
+                    print(
+                        "Break cannot be longer than the shift time.\n"
+                        )
             else:
                 print("Break time must be between 1 and 120 minutes.\n")
         except ValueError:
-            print("Invalid input! Please enter an integer value for break time.\n")
+            print(
+                "Invalid input! Please enter a whole number for break time.\n"
+                )
 
 def get_hourly_wage(prompt: str) -> float:
-    """Prompt user for hourly wage and validate that it's a positive value within the specified range."""
+    """
+    Prompt user for hourly wage and validate that
+    it's a positive value within the specified range.
+    """
     while True:
         try:
             wage = float(input(prompt).strip())
@@ -79,17 +89,27 @@ def get_hourly_wage(prompt: str) -> float:
             else:
                 print("Hourly wage must be between £1 and £250.\n")
         except ValueError:
-            print("Invalid input! Please enter a number for the hourly wage.\n")
+            print(
+                "Invalid input! Please enter a number for the hourly wage.\n"
+                )
 
-def validate_times(start_time: datetime.time, end_time: datetime.time) -> bool:
-    """Validate that end time is after start time and they are not the same."""
+def validate_times(
+    start_time: datetime.time, end_time: datetime.time
+    ) -> bool:
+    """
+    Validates that the end time is after
+    the start time and they are not the same.
+    """
     if end_time <= start_time:
         return False
     return True
 
 def calculate_pay(
-    start_time: datetime.time, end_time: datetime.time, break_minutes: int,
-    hourly_wage: float) -> Tuple[float, float, float]:
+    start_time: datetime.time,
+    end_time: datetime.time,
+    break_minutes: int,
+    hourly_wage: float
+    ) -> Tuple[float, float, float]:
     """
     Calculates the total hours worked, total paid hours
     and the total due.
@@ -98,7 +118,9 @@ def calculate_pay(
     end_datetime = datetime.combine(datetime.today(), end_time)
 
     if not validate_times(start_time, end_time):
-        print("Error: End time must be after start time and cannot be the same.\n")
+        print(
+            "Error: End time must be after start time and cannot be the same.\n"
+            )
         return 0, 0, 0  # Return zeros if times are invalid
 
     time_diff = end_datetime - start_datetime
@@ -106,7 +128,9 @@ def calculate_pay(
     print(f"You worked a total of: {hours_worked:.2f} hours\n")
 
     if break_minutes >= hours_worked * 60:
-        print("Error: Break time cannot be longer than the total shift time.\n")
+        print(
+            "Error: Break time cannot be longer than the total shift time.\n"
+            )
         return 0, 0, 0  # Return zeros if break time is invalid
 
     paid_hours = hours_worked - (break_minutes / 60)
@@ -118,12 +142,18 @@ def calculate_pay(
     return hours_worked, paid_hours, total_due
 
 def pool_user_data(
-    shift_date: date, start_time: datetime.time,
-    end_time: datetime.time, break_minutes: int, hours_worked: float,
-    paid_hours: float, hourly_wage: float, total_due: float
+    shift_date: date,
+    start_time: datetime.time,
+    end_time: datetime.time,
+    break_minutes: int,
+    hours_worked: float,
+    paid_hours: float,
+    hourly_wage: float,
+    total_due: float
     ):
     """
-    Pool user data into a list and updates the Google Sheet.
+    Pools user data into a list and updates
+    the hours worksheet within the Google Sheet.
     """
     pooled_data = [
         shift_date.strftime('%d/%m/%Y'),
@@ -169,13 +199,15 @@ def display_last_7_entries():
         ]
 
     # Print the header row
-    header_row = " | ".join(f"{header[i]:<{col_widths[i]}}" for i in range(len(header)))
+    header_row = " | ".join(
+        f"{header[i]:<{col_widths[i]}}" for i in range(len(header)))
     print(header_row)
     print("-" * len(header_row))  # Print a line separator
 
     # Print each entry
     for entry in last_7_entries:
-        row = " | ".join(f"{entry[i]:<{col_widths[i]}}" for i in range(len(entry)))
+        row = " | ".join(
+            f"{entry[i]:<{col_widths[i]}}" for i in range(len(entry)))
         print(row)
 
     print()  # Add a newline for readability
@@ -186,55 +218,108 @@ def main():
     Main function to run the shift
     collection and calculation process.
     """
-    print("Welcome to the Auto Pay Tracking App.\n")
-    print("Track your days and log your working hours here.\n")
+    print(f"""
+    Welcome to the Auto Pay Tracking App.
+    Track your days and log your working hours here.
+    """)
 
     while True:
         # Collect and process data
-        shift_date = get_date("Please enter the date of your shift (DD/MM/YYYY): \n")
-        start_time = get_time("Enter your start time in 24hr format (HHMM): \n")
-        end_time = get_time("Enter your end time in 24hr format (HHMM): \n")
+        shift_date = get_date(
+            "Please enter the date of your shift (DD/MM/YYYY): \n"
+            )
+        start_time = get_time(
+            "Enter your start time in 24hr format (HHMM): \n"
+            )
+        end_time = get_time(
+            "Enter your end time in 24hr format (HHMM): \n"
+            )
         
-        # Ensure that start time and end time are within the same 24-hour period and not the same
+        """
+        Ensures that start time and end time
+        are within the same 24-hour period and are not the same.
+        """
         while not validate_times(start_time, end_time):
-            print("Error: End time must be after start time and cannot be the same.\n")
-            start_time = get_time("Re-enter your start time in 24hr format (HHMM): \n")
-            end_time = get_time("Re-enter your end time in 24hr format (HHMM): \n")
+            print(
+                "Error: End time must be after start time and not the same.\n"
+                )
+            start_time = get_time(
+                "Re-enter your start time in 24hr format (HHMM): \n"
+                )
+            end_time = get_time(
+                "Re-enter your end time in 24hr format (HHMM): \n"
+                )
         
-        total_shift_hours = (datetime.combine(datetime.today(), end_time) - datetime.combine(datetime.today(), start_time)).total_seconds() / 3600
-        break_minutes = get_break_time("Enter your break time in minutes (1-120): \n", total_shift_hours)
-        hourly_wage = get_hourly_wage("Enter hourly rate of pay (e.g., 15.50): \n")
+        total_shift_hours = (
+            datetime.combine(datetime.today(),
+            end_time) - datetime.combine(datetime.today(),
+            start_time)
+            ).total_seconds() / 3600
+        break_minutes = get_break_time(
+            "Enter your break time in minutes (1-120): \n",
+            total_shift_hours
+            )
+        hourly_wage = get_hourly_wage(
+            "Enter hourly rate of pay (e.g., 15.50): \n"
+            )
 
         print("Thank you, calculating your pay...\n")
-        hours_worked, paid_hours, total_due = calculate_pay(start_time, end_time, break_minutes, hourly_wage)
-        
+        hours_worked, paid_hours, total_due = calculate_pay(
+            start_time, end_time, break_minutes, hourly_wage
+            )
+
         # Only pool data if times and break are valid
         if hours_worked > 0:
-            pool_user_data(shift_date, start_time, end_time, break_minutes, hours_worked, paid_hours, hourly_wage, total_due)
+            pool_user_data(
+                shift_date,
+                start_time,
+                end_time,
+                break_minutes,
+                hours_worked,
+                paid_hours,
+                hourly_wage,
+                total_due
+                )
 
         # Ask user if they want to enter another shift or exit
         while True:
-            repeat = input("Ready to enter another shift? (yes/no): \n").strip().lower()
+            repeat = input(
+                "Ready to enter another shift? (yes/no): \n"
+                ).strip().lower()
             if repeat == "yes":
                 break
             elif repeat == "no":
                 print("Exiting the program. Your data has been saved.\n")
                 while True:
-                    show_entries = input("Would you like to see the last 7 entries? (yes/no): \n").strip().lower()
+                    show_entries = input(
+                        "Would you like to see the last 7 entries? (yes/no): \n"
+                        ).strip().lower()
                     if show_entries == "yes":
                         display_last_7_entries()
-                        print("Thank you for using the Auto Pay Tracking App.\n")
+                        print(
+                            "Thank you for using the Auto Pay Tracking App.\n"
+                            )
                         return  # Exit the function to end the program
                     elif show_entries == "no":
-                        print("Thank you for using the Auto Pay Tracking App.\n")
+                        print(
+                            "Thank you for using the Auto Pay Tracking App.\n"
+                            )
                         return  # Exit the function to end the program
                     else:
-                        print("Invalid input! Please enter 'yes' or 'no' without extra spaces or characters.\n")
+                        print(f"""
+                            Invalid input!
+                            Please enter 'yes' or 'no'
+                            without extra spaces or characters.
+                            """)
                 # Exit the main loop after showing entries or not
                 return
             else:
-                print("Invalid input! Please enter 'yes' or 'no' without extra spaces or characters.\n")
+                print(f"""
+                Invalid input!
+                Please enter 'yes' or 'no' without extra spaces or characters.
+                """)
 
 # Run the main function
 if __name__ == "__main__":
     main()
+
