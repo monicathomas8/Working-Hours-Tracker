@@ -1,7 +1,10 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta
+from typing import Optional, Tuple
 
+
+# Google Sheets setup
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -17,14 +20,7 @@ the code above was learned from the loveSandwiches project
 To install and work with googlesheets.
 """
 
-# Global variables
-shift_date = None
-collect_start_time = None
-collect_end_time = None
-collect_break_time = None
-hourly_wage = None
-paid_hours = None
-total_due = None
+
 
 
 def get_shift_date():
