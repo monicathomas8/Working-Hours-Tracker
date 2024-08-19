@@ -1,26 +1,19 @@
+from datetime import datetime, timedelta
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import datetime, timedelta
-from typing import Optional, Tuple
-
+from typing import Tuple
 
 # Google Sheets setup
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
-    ]
+]
 
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('Working-Hours-Tracker-PP3')
-"""
-the code above was learned from the loveSandwiches project
-To install and work with googlesheets.
-"""
-
-
 
 def get_date(prompt: str) -> datetime.date:
     """Prompt user for a date and validate the format."""
@@ -28,12 +21,10 @@ def get_date(prompt: str) -> datetime.date:
         try:
             date_str = input(prompt)
             shift_date = datetime.strptime(date_str, '%d/%m/%Y').date()
-            print(f"Date entered: {shift_date}\n")
+            print(f"Date entered: {shift_date.strftime('%d/%m/%Y')}\n")
             return shift_date
         except ValueError:
             print("Invalid date format! Please enter date as DD/MM/YYYY.\n")
-        # ends the loop if input data is valid
-
 
 def get_time(prompt: str) -> datetime.time:
     """Prompt user for a time and validate the format."""
@@ -45,7 +36,6 @@ def get_time(prompt: str) -> datetime.time:
             return time_value
         except ValueError:
             print("Invalid time format! Please enter time as HHMM.\n")
-
 
 def get_positive_float(prompt: str) -> float:
     """Prompt user for a positive float value and validate the input."""
@@ -60,10 +50,12 @@ def get_positive_float(prompt: str) -> float:
         except ValueError:
             print("Invalid input! Please enter a number.\n")
 
-
-def calculate_pay(start_time: datetime, end_time: datetime, break_minutes: int, hourly_wage: float) -> Tuple[float, float, float]:
+def calculate_pay(start_time: datetime.time, end_time: datetime.time, break_minutes: int, hourly_wage: float) -> Tuple[float, float, float]:
     """Calculate total hours worked, paid hours, and total due."""
-    time_diff = datetime.combine(datetime.today(), end_time) - datetime.combine(datetime.today(), start_time)
+    start_datetime = datetime.combine(datetime.today(), start_time)
+    end_datetime = datetime.combine(datetime.today(), end_time)
+    
+    time_diff = end_datetime - start_datetime
     hours_worked = time_diff.total_seconds() / 3600
     print(f"You worked a total of: {hours_worked:.2f} hours\n")
 
@@ -75,78 +67,14 @@ def calculate_pay(start_time: datetime, end_time: datetime, break_minutes: int, 
 
     return hours_worked, paid_hours, total_due
 
-
-def get_break_times():
-    """
-    Gets the break time duration in minutes.
-    """
-    global collect_break_time
-    while True:
-        try:
-            break_time_input = int(
-                input("Enter your break time in munutes: \n"))
-            if break_time_input >= 0:
-                collect_break_time = break_time_input
-                print("Checking data...\n")
-                print("break time is valid.\n")
-                return collect_break_time
-            else:
-                print("Checking data...\n")
-                print("Break time cannot be a negative number!\n")
-        except ValueError:
-            print("Checking data...\n")
-            print("Invalid input! Please enter break time in minutes!\n")
-
-
-def get_wage():
-    """
-    Gets the user's hourly wage as a float.
-    """
-    global hourly_wage
-    while True:
-        try:
-            hourly_wage_input = input(
-                "Enter hourly rate of pay(e.g., £15.50 should be 15.50): \n")
-            hourly_wage = float(hourly_wage_input)
-            print("Checking data...\n")
-            print("Hourly wage is valid.\n")
-            return hourly_wage
-        except ValueError:
-            print("Checking data...\n")
-            print("Invalid input!\n")
-            print("Please enter a valid number for your wage(e.g., 14.00).\n")
-
-
-def calculate_days_pay():
-    """
-    Calculate the total hours worked, paid hours after subracting break time,
-    and total due.
-    """
-    global hours_worked, paid_hours, total_due
-
-    time_diff = collect_end_time - collect_start_time
-    hours_worked = time_diff.total_seconds() / 3600
-    # Converts time difference to hours
-    print(f"You worked a total of: {hours_worked:.2f} hours\n")
-
-    paid_hours = hours_worked - (collect_break_time / 60)
-    print(f"Your total paid hours are: {paid_hours:.2f} hours\n")
-
-    total_due = paid_hours * hourly_wage
-    print(f"For todays shift you are due: £{total_due:.2f}\n")
-
-
-def pool_user_data():
-    """
-    Pulls user input data into a list and updates the google sheets
-    """
-    global hours_worked, paid_hours, total_due, hourly_wage
+def pool_user_data(shift_date: datetime.date, start_time: datetime.time, end_time: datetime.time, break_minutes: int, hours_worked: float, paid_hours: float, hourly_wage: float, total_due: float):
+    """Pool user data into a list and update the Google Sheet."""
     pooled_data = [
         shift_date.strftime('%d/%m/%Y'),
-        f"{collect_start_time.strftime('%H:%M')}",
-        f"{collect_end_time.strftime('%H:%M')}",
+        start_time.strftime('%H:%M'),
+        end_time.strftime('%H:%M'),
         f"{hours_worked:.2f}",
-        collect_break_time,
+        break_minutes,
         f"{paid_hours:.2f}",
         f"{hourly_wage:.2f}",
         f"£{total_due:.2f}"
@@ -156,39 +84,33 @@ def pool_user_data():
     hours_worksheet.append_row(pooled_data)
     print("Your Hours Worksheet has been updated.\n")
 
-
 def main():
-    """
-    Main function to run the shift collection
-    and calculation process in a loop.
-    """
-    print("Welcome to Monica's Auto Pay Tracking App.\n")
+    """Main function to run the shift collection and calculation process."""
+    print("Welcome to the Auto Pay Tracking App.\n")
     print("Track your days and log your working hours here.\n")
+    
     while True:
         # Collect and process data
-        get_shift_date()
-        get_start_time()
-        get_end_time()
-        get_break_times()
-        get_wage()
+        shift_date = get_date("Please enter the date of your shift (DD/MM/YYYY): \n")
+        start_time = get_time("Enter your start time in 24hr format (HHMM): \n")
+        end_time = get_time("Enter your end time in 24hr format (HHMM): \n")
+        break_minutes = int(get_positive_float("Enter your break time in minutes: \n"))
+        hourly_wage = get_positive_float("Enter hourly rate of pay (e.g., 15.50): \n")
+
         print("Thank you, calculating your pay...\n")
-        calculate_days_pay()
-        pool_user_data()
+        hours_worked, paid_hours, total_due = calculate_pay(
+            start_time, end_time, break_minutes, hourly_wage
+        )
+        
+        pool_user_data(shift_date, start_time, end_time, break_minutes, hours_worked, paid_hours, hourly_wage, total_due)
 
-        # Ask user if they wamt to enter another shift
-        while True:
-            repeat = input(
-                "Ready to enter another shift?(yes/no): \n").strip().lower()
-            if repeat == "yes":
-                break  # Continue the loop to enter another shift
-            elif repeat == "no":
-                print("Exiting the program. Your data has been saved.\n")
-                print("Thank you for using Monica's Auto Pay Tracking App.\n")
-                print("Until next time, goodbye! \n")
-                exit()  # Exit the program
-            else:
-                print("Invalid input. Please enter 'yes' or 'no'.")
-
+        # Ask user if they want to enter another shift
+        repeat = input("Ready to enter another shift? (yes/no): \n").strip().lower()
+        if repeat != "yes":
+            print("Exiting the program. Your data has been saved.\n")
+            print("Thank you for using the Auto Pay Tracking App.\n")
+            break
 
 # Run the main function
-main()
+if __name__ == "__main__":
+    main()
