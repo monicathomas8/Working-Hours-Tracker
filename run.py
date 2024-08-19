@@ -47,6 +47,21 @@ def get_time(prompt: str) -> datetime.time:
             print("Invalid time format! Please enter time as HHMM.\n")
 
 
+def get_positive_float(prompt: str) -> float:
+    """Prompt user for a positive float value and validate the input."""
+    while True:
+        try:
+            value = float(input(prompt))
+            if value >= 0:
+                print(f"Value entered: {value}\n")
+                return value
+            else:
+                print("Value cannot be negative.\n")
+        except ValueError:
+            print("Invalid input! Please enter a number.\n")
+
+
+
 
 def get_start_time():
     """
