@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import gspread
 from google.oauth2.service_account import Credentials
 from typing import Tuple
@@ -19,7 +19,7 @@ def get_date(prompt: str) -> datetime.date:
     """Prompt user for a date and validate the format."""
     while True:
         try:
-            date_str = input(prompt)
+            date_str = input(prompt).strip()  # Strip whitespace
             shift_date = datetime.strptime(date_str, '%d/%m/%Y').date()
             print(f"Date entered: {shift_date.strftime('%d/%m/%Y')}\n")
             return shift_date
@@ -30,7 +30,7 @@ def get_time(prompt: str) -> datetime.time:
     """Prompt user for a time and validate the format."""
     while True:
         try:
-            time_str = input(prompt)
+            time_str = input(prompt).strip()  # Strip whitespace
             time_value = datetime.strptime(time_str, '%H%M').time()
             print(f"Time entered: {time_value.strftime('%H:%M')}\n")
             return time_value
@@ -41,7 +41,7 @@ def get_positive_float(prompt: str) -> float:
     """Prompt user for a positive float value and validate the input."""
     while True:
         try:
-            value = float(input(prompt))
+            value = float(input(prompt).strip())  # Strip whitespace
             if value >= 0:
                 print(f"Value entered: {value}\n")
                 return value
@@ -50,8 +50,13 @@ def get_positive_float(prompt: str) -> float:
         except ValueError:
             print("Invalid input! Please enter a number.\n")
 
-def calculate_pay(start_time: datetime.time, end_time: datetime.time, break_minutes: int, hourly_wage: float) -> Tuple[float, float, float]:
-    """Calculate total hours worked, paid hours, and total due."""
+def calculate_pay(
+    start_time: datetime.time, end_time: datetime.time, break_minutes: int,
+    hourly_wage: float) -> Tuple[float, float, float]:
+    """
+    Calculates the total hours worked, total paid hours
+    and the total due.
+    """
     start_datetime = datetime.combine(datetime.today(), start_time)
     end_datetime = datetime.combine(datetime.today(), end_time)
     
@@ -67,8 +72,14 @@ def calculate_pay(start_time: datetime.time, end_time: datetime.time, break_minu
 
     return hours_worked, paid_hours, total_due
 
-def pool_user_data(shift_date: datetime.date, start_time: datetime.time, end_time: datetime.time, break_minutes: int, hours_worked: float, paid_hours: float, hourly_wage: float, total_due: float):
-    """Pool user data into a list and update the Google Sheet."""
+def pool_user_data(
+    shift_date: datetime.date, start_time: datetime.time,
+    end_time: datetime.time, break_minutes: int, hours_worked: float,
+    paid_hours: float, hourly_wage: float, total_due: float
+    ):
+    """
+    Pool user data into a list and updates the Google Sheet.
+    """
     pooled_data = [
         shift_date.strftime('%d/%m/%Y'),
         start_time.strftime('%H:%M'),
@@ -84,35 +95,76 @@ def pool_user_data(shift_date: datetime.date, start_time: datetime.time, end_tim
     hours_worksheet.append_row(pooled_data)
     print("Your Hours Worksheet has been updated.\n")
 
+def display_last_7_entries():
+    """
+    Display the last 7 entries from the Google Sheet.
+    """
+    hours_worksheet = SHEET.worksheet("hours")
+    # Fetch all records
+    all_records = hours_worksheet.get_all_values()
+    # Get the last 7 entries
+    last_7_entries = all_records[-7:]
+    
+    print("\nHere are the last 7 entries:\n")
+    for entry in last_7_entries:
+        print(entry)
+
 def main():
-    """Main function to run the shift collection and calculation process."""
+    """
+    Main function to run the shift
+    collection and calculation process.
+    """
     print("Welcome to the Auto Pay Tracking App.\n")
     print("Track your days and log your working hours here.\n")
     
     while True:
         # Collect and process data
-        shift_date = get_date("Please enter the date of your shift (DD/MM/YYYY): \n")
-        start_time = get_time("Enter your start time in 24hr format (HHMM): \n")
-        end_time = get_time("Enter your end time in 24hr format (HHMM): \n")
+        shift_date = get_date(
+            "Please enter the date of your shift (DD/MM/YYYY): \n"
+            )
+        start_time = get_time(
+            "Enter your start time in 24hr format (HHMM): \n"
+            )
+        end_time = get_time(
+            "Enter your end time in 24hr format (HHMM): \n"
+            )
         break_minutes = int(get_positive_float("Enter your break time in minutes: \n"))
-        hourly_wage = get_positive_float("Enter hourly rate of pay (e.g., 15.50): \n")
+        hourly_wage = get_positive_float(
+            "Enter hourly rate of pay (e.g., 15.50): \n")
 
         print("Thank you, calculating your pay...\n")
         hours_worked, paid_hours, total_due = calculate_pay(
             start_time, end_time, break_minutes, hourly_wage
         )
         
-        pool_user_data(shift_date, start_time, end_time, break_minutes, hours_worked, paid_hours, hourly_wage, total_due)
+        pool_user_data(
+            shift_date, start_time, end_time, break_minutes,
+            hours_worked, paid_hours, hourly_wage, total_due
+            )
 
         # Ask user if they want to enter another shift
         while True:
-            repeat = input("Ready to enter another shift? (yes/no): \n").strip().lower()
+            repeat = input(
+                "Ready to enter another shift? (yes/no): \n").strip().lower()
             if repeat == "yes":
                 break
             elif repeat == "no":
                 print("Exiting the program. Your data has been saved.\n")
-                print("Thank you for using the Auto Pay Tracking App.\n")
-                return  # Exit the function to end the program
+                while True:
+                    show_entries = input(
+                        "Would you like to see the last 7 entries? (yes/no): \n"
+                        ).strip().lower()
+                    if show_entries == "yes":
+                        display_last_7_entries()
+                        print("Thank you for using the Auto Pay Tracking App.\n")
+                        return  # Exit the function to end the program
+                    elif show_entries == "no":
+                        print("Thank you for using the Auto Pay Tracking App.\n")
+                        return  # Exit the function to end the program
+                    else:
+                        print("Invalid input! Please enter 'yes' or 'no' without extra spaces or characters.\n")
+                # Exit the main loop after showing entries or not
+                return
             else:
                 print("Invalid input! Please enter 'yes' or 'no' without extra spaces or characters.\n")
 
