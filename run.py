@@ -35,20 +35,17 @@ def get_date(prompt: str) -> datetime.date:
         # ends the loop if input data is valid
 
 
-def validate_date(collect_date):
-    """
-    Checks if the input is in the correct format and returns the
-    parsed date if valid, otherwise retuen None.
-    """
-    try:
-        # Attepmt to parse the date into the correct format.
-        parsed_date = datetime.strptime(collect_date, '%d/%m/%Y').date()
-        print(f"Date entered: {parsed_date}\n")
-        return parsed_date
-    except ValueError:
-        # If the date is not valid, print an error message and return false
-        print("Please enter the date in DD/MM/YYYY format to continue.\n")
-        return None
+def get_time(prompt: str) -> datetime.time:
+    """Prompt user for a time and validate the format."""
+    while True:
+        try:
+            time_str = input(prompt)
+            time_value = datetime.strptime(time_str, '%H%M').time()
+            print(f"Time entered: {time_value.strftime('%H:%M')}\n")
+            return time_value
+        except ValueError:
+            print("Invalid time format! Please enter time as HHMM.\n")
+
 
 
 def get_start_time():
