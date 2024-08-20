@@ -1,5 +1,7 @@
 <h1>Pay Tracker Application</h1>
 <p>
+live link is here <a targert="_blank" href="https://github.com/monicathomas8/Working-Hours-Tracker-PP3/deployments/monicas-pay-tracking-app" targert="_blank"> Auto Pay Tracking App</a>
+
 My Pay Tracker app is a python terminal project, which aids users to track their worked hours and how much they are due to be paid for that day. This app is targeted at average hospitability, workers, care worker or someone who is in need to track a dayshift which is paid hourly with unpaid breaks. 
 Users enter the of there shift, start time, end time, breaks and hourly wage. The application will return to the user how much they are due to be paid for the day shift. It will also log it to a google sheet for storage. The user has the option to recall the last 7 entries. This is ideally so the user can pull the last weeks’ worth of data and check their pay., worked hours and breaks.
 The user follows the prompts to get to the calculated results. 
@@ -92,7 +94,7 @@ Steps for deployment:
 <li>Choose deployment method, this can be manual or automatic.</li>
 <li>Click on Deploy.</li>
 </ul>
-
+link to GitHub repository <a targert="_blank" href="https://github.com/monicathomas8/Working-Hours-Tracker-PP3.git" targert="_blank"> Auto Pay Tracking App</a>
 <h2>Credits</h2>
 <p>
 Content – The content, idea, and code to make the project was created by myself. I sourced help from online platforms like YouTube to search for coding problem solving and more python coding videos to help me problem solve, I found Kayle Yang was really helpful.
