@@ -7,5 +7,4 @@ __pycache__/
 node_modules/
 .github/
 creds.json
-pract.py
-ptact.py
+ppt.py
