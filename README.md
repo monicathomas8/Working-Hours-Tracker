@@ -13,7 +13,7 @@ I needed to track my working hours for each day and calculate my days pay. I cre
 When the program is loaded
 The user can see a welcome message with prompts for the user to follow.
 
-Img welcome
+<img >
 At this stage, the user will need to enter a valid date. This cannot be in the future, as the app is tracked worked days only. The app will only take data that is less than 5 years old. This app is designed for more current data, not historical dates. For this reason, I set the limit for no more then 5 years past. 
 
 Img enter start time
