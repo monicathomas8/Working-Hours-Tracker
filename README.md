@@ -5,7 +5,7 @@ Users enter the of there shift, start time, end time, breaks and hourly wage. Th
 The user follows the prompts to get to the calculated results. 
 I designed this application with someone like me in mind. After a few work collages and I were paid incorrectly. I started to track my worked hours.
 I needed to track my working hours for each day and calculate my days pay. I created an excel spreadsheet and had to manually enter the data and set the functions for each item list I wanted to enter. This was taking a bit of time, was really small on my phone. I thought this would be easier if there was an application to do the work for me and possibly an application my work collages could use to track their own working days too.
-<img src =/workspace/Working-Hours-Tracker-PP3/views/images/ppe main.png>
+<img src = "/workspace/Working-Hours-Tracker-PP3/views/images/ppe main.png">
 </p>
 
 <h2>Features</h2>
@@ -24,17 +24,17 @@ After you enter a valid date, the user is asked to enter a start time followed b
 Now the user is asked to enter their break duration. This app will deduct the break time form the total worked hour to calculate their pay. If someone’s breaks are paid, then this app is not for that type of user.
 From here the user is asked to enter their hourly wage. I set a limit of £1-250. This helps stick to the applications targeted audience.
 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/pp7.png>
+<img src = "/workspace/Working-Hours-Tracker-PP3/views/images/pp7.png">
 
 From here the data is logged to the google sheet and the user is given the option to enter more shifts. If the user enters no, they can check the last 7 entries then exit the application.
 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/pp3 final.png>
+<img src = "/workspace/Working-Hours-Tracker-PP3/views/images/pp3 final.png">
 </p>
 <h2>Flow Chart</h2>
 
 <p>
 I brainstormed using lucid chats to understand what I need to do and how to get the idea into working code. 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/flow.png>
+<img src = "/workspace/Working-Hours-Tracker-PP3/views/images/flow.png">
 </p>
 
 <h2>Future Features</h2>
@@ -45,7 +45,7 @@ On the google sheet there is a work sheet called commission. I would like to add
 <h2>Testing</h2>
 <p>
 I have manually tested the project by doing the following:
-<ul></ul>
+<ul>
 	<li>Passed the code through a PEP8 linter and confirmed there are no problems.</li>
 	<li>Tested in my local terminal and within the Heroku terminal.</li>
 	<li>Made sure invalid user inputs are identified and promoted to be corrected.</li>
@@ -64,7 +64,7 @@ When I was writing the code I went through some changes to remove any buys I fou
 <h2>Validator Testing</h2>
 <p>
 Pep8 – No errors were found 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/Python PEP8 check.png>
+<img src = "/workspace/Working-Hours-Tracker-PP3/views/images/Python PEP8 check.png">
 </p>
 
 
@@ -90,5 +90,5 @@ Steps for deployment:
 <h2>Credits</h2>
 <p>
 Content – The content, idea, and code to make the project was created by myself. I sourced help from online platforms like YouTube to search for coding problem solving and more python coding videos to help me problem solve, I found Kayle Yang was really helpful.
-I would like to thank Google for making the APIs and Google Worksheets for making the project possible. I would like to thank my Mentor Juilia >>>>, She has guided me through this project.
+I would like to thank Google for making the APIs and Google Worksheets for making the project possible. I would like to thank my Mentor Juilia, She has guided me through this project.
 </p>
