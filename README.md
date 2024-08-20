@@ -5,6 +5,7 @@ Users enter the of there shift, start time, end time, breaks and hourly wage. Th
 The user follows the prompts to get to the calculated results. 
 I designed this application with someone like me in mind. After a few work collages and I were paid incorrectly. I started to track my worked hours.
 I needed to track my working hours for each day and calculate my days pay. I created an excel spreadsheet and had to manually enter the data and set the functions for each item list I wanted to enter. This was taking a bit of time, was really small on my phone. I thought this would be easier if there was an application to do the work for me and possibly an application my work collages could use to track their own working days too.
+<img src =/workspace/Working-Hours-Tracker-PP3/views/images/ppe main.png>
 </p>
 
 <h2>Features</h2>
