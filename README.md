@@ -5,7 +5,7 @@ Users enter the of there shift, start time, end time, breaks and hourly wage. Th
 The user follows the prompts to get to the calculated results. 
 I designed this application with someone like me in mind. After a few work collages and I were paid incorrectly. I started to track my worked hours.
 I needed to track my working hours for each day and calculate my days pay. I created an excel spreadsheet and had to manually enter the data and set the functions for each item list I wanted to enter. This was taking a bit of time, was really small on my phone. I thought this would be easier if there was an application to do the work for me and possibly an application my work collages could use to track their own working days too.
-<img src =/workspace/Working-Hours-Tracker-PP3/views/images/ppe main.png>
+<img src ="/workspace/Working-Hours-Tracker-PP3/views/images/ppe main.png">
 </p>
 
 <h2>Features</h2>
@@ -14,27 +14,27 @@ I needed to track my working hours for each day and calculate my days pay. I cre
 When the program is loaded
 The user can see a welcome message with prompts for the user to follow.
 
-<img src = views/images/Auto Pay Tracking App. 1.png>
+<img src = "views/images/Auto Pay Tracking App. 1.png">
 At this stage, the user will need to enter a valid date. This cannot be in the future, as the app is tracked worked days only. The app will only take data that is less than 5 years old. This app is designed for more current data, not historical dates. For this reason, I set the limit for no more then 5 years past. 
 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/Auto Pay Tracking App 2.png>
+<img src = "/workspace/Working-Hours-Tracker-PP3/views/images/Auto Pay Tracking App 2.png">
 After you enter a valid date, the user is asked to enter a start time followed by an end time These need to be with the 24-hour format and must run within that daytime frame, it does not support night shifts. 
 
 <img src = /workspace/Working-Hours-Tracker-PP3/views/images/pp3 4.png>
 Now the user is asked to enter their break duration. This app will deduct the break time form the total worked hour to calculate their pay. If someone’s breaks are paid, then this app is not for that type of user.
 From here the user is asked to enter their hourly wage. I set a limit of £1-250. This helps stick to the applications targeted audience.
 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/pp7.png>
+<img src = "/workspace/Working-Hours-Tracker-PP3/views/images/pp7.png">
 
 From here the data is logged to the google sheet and the user is given the option to enter more shifts. If the user enters no, they can check the last 7 entries then exit the application.
 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/pp3 final.png>
+<img src = ">
 </p>
 <h2>Flow Chart</h2>
 
 <p>
 I brainstormed using lucid chats to understand what I need to do and how to get the idea into working code. 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/flow.png>
+<img src = "views/images/flow.png">
 </p>
 
 <h2>Future Features</h2>
@@ -64,7 +64,7 @@ When I was writing the code I went through some changes to remove any buys I fou
 <h2>Validator Testing</h2>
 <p>
 Pep8 – No errors were found 
-<img src = /workspace/Working-Hours-Tracker-PP3/views/images/Python PEP8 check.png>
+<img src = "views/images/Python PEP8 check.png">
 </p>
 
 
